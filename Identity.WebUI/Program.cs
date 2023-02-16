@@ -1,8 +1,11 @@
 using Identity.Application;
+using Identity.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddApplicationServices();
+builder.Services
+    .AddApplicationServices()
+    .AddInfrastructureServices();
 
 builder.Services.AddControllersWithViews();
 
@@ -16,7 +19,6 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
-
 
 app.MapControllerRoute(
     name: "default",
