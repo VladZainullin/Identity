@@ -1,8 +1,9 @@
 using Identity.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Identity.Application.Common.Abstractions;
 
 public interface IAppDbContext
 {
-    IQueryable<User> Users { get; }
+    DbSet<User> Users { get; }
 }
