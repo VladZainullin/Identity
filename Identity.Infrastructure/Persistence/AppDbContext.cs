@@ -8,7 +8,15 @@ using Microsoft.Extensions.Configuration;
 
 namespace Identity.Infrastructure.Persistence;
 
-internal sealed class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>, IAppDbContext
+internal sealed class AppDbContext : IdentityDbContext<
+    User,
+    IdentityRole<Guid>,
+    Guid,
+    IdentityUserClaim<Guid>,
+    IdentityUserRole<Guid>,
+    IdentityUserLogin<Guid>,
+    IdentityRoleClaim<Guid>,
+    IdentityUserToken<Guid>>, IAppDbContext
 {
     private readonly IConfiguration _configuration;
     
