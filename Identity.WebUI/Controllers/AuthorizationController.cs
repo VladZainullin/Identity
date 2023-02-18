@@ -14,7 +14,7 @@ public sealed class AuthorizationController : ApiControllerBase
         await Mediator.Send(
             new RegisterUserCommand(dto),
             cancellationToken);
-        
+
         return NoContent();
     }
 }

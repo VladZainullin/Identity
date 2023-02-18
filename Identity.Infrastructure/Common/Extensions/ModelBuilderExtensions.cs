@@ -11,10 +11,10 @@ internal static class ModelBuilderExtensions
         foreach (var entityType in builder.Model.GetEntityTypes())
         {
             var name = rename?.Invoke(
-                entityType.GetTableName() 
+                entityType.GetTableName()
                 ??
                 throw new InvalidOperationException("Table has not name"));
-            
+
             builder
                 .Entity(entityType.ClrType)
                 .ToTable(name);
