@@ -1,5 +1,6 @@
 using Identity.Application.Features.Authorization.Commands.RegisterUser;
 using Identity.Application.Features.Authorization.Commands.SignInUser;
+using Identity.Application.Features.Authorization.Commands.SignOutUser;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Identity.WebUI.Controllers;
@@ -26,6 +27,16 @@ public sealed class AuthorizationController : ApiControllerBase
     {
         await Mediator.Send(
             new SignInUserCommand(dto),
+            cancellationToken);
+
+        return NoContent();
+    }
+    
+    [HttpPost("sign-out")]
+    public async Task<IActionResult> SignOutUserAsync(CancellationToken cancellationToken)
+    {
+        await Mediator.Send(
+            new SignOutUserCommand(),
             cancellationToken);
 
         return NoContent();
