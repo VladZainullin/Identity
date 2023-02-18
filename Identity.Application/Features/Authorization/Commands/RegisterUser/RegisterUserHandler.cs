@@ -1,5 +1,5 @@
 using System.Security.Claims;
-using Identity.Application.Common.Abstractions;
+using AutoMapper;
 using Identity.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -8,31 +8,24 @@ namespace Identity.Application.Features.Authorization.Commands.RegisterUser;
 
 internal sealed class RegisterUserHandler : IRequestHandler<RegisterUserCommand>
 {
-    private readonly IAppDbContext _context;
     private readonly UserManager<User> _userManager;
+    private readonly IMapper _mapper;
 
-    public RegisterUserHandler(
-        IAppDbContext context,
-        UserManager<User> userManager)
+    public RegisterUserHandler(UserManager<User> userManager, IMapper mapper)
     {
-        _context = context;
         _userManager = userManager;
+        _mapper = mapper;
     }
 
     public async Task Handle(
         RegisterUserCommand request,
         CancellationToken cancellationToken)
     {
-        var dto = request.Dto;
+        var user = _mapper.Map<User>(request.Dto);
 
-        var user = new User
-        {
-            DateOfBirth = dto.DateOfBirth,
-            UserName = dto.Username,
-            Email = dto.Email
-        };
-
-        var result = await _userManager.CreateAsync(user, dto.Password);
+        var result = await _userManager.CreateAsync(
+            user,
+            request.Dto.Password);
         if (result != IdentityResult.Success) throw new Exception();
 
         var claims = new Claim[]
