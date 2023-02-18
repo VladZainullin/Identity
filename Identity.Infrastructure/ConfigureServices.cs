@@ -1,6 +1,7 @@
 using Identity.Application.Common.Abstractions;
 using Identity.Domain.Entities;
 using Identity.Infrastructure.Persistence;
+using Identity.Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -26,6 +27,8 @@ public static class ConfigureServices
                 options.User.RequireUniqueEmail = true;
             })
             .AddEntityFrameworkStores<AppDbContext>();
+
+        services.AddScoped<IIdentityService, IdentityService>();
 
         return services;
     }

@@ -1,19 +1,20 @@
-using System.Security.Claims;
 using AutoMapper;
+using Identity.Application.Common.Abstractions;
 using Identity.Domain.Entities;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 
 namespace Identity.Application.Features.Authorization.Commands.RegisterUser;
 
 internal sealed class RegisterUserHandler : IRequestHandler<RegisterUserCommand>
 {
-    private readonly UserManager<User> _userManager;
+    private readonly IIdentityService _identityService;
     private readonly IMapper _mapper;
 
-    public RegisterUserHandler(UserManager<User> userManager, IMapper mapper)
+    public RegisterUserHandler(
+        IIdentityService identityService,
+        IMapper mapper)
     {
-        _userManager = userManager;
+        _identityService = identityService;
         _mapper = mapper;
     }
 
@@ -23,18 +24,6 @@ internal sealed class RegisterUserHandler : IRequestHandler<RegisterUserCommand>
     {
         var user = _mapper.Map<User>(request.Dto);
 
-        var result = await _userManager.CreateAsync(
-            user,
-            request.Dto.Password);
-        if (result != IdentityResult.Success) throw new Exception();
-
-        var claims = new Claim[]
-        {
-            new(nameof(User.Id), user.Id.ToString()),
-            new(nameof(User.Email), user.Email),
-            new(nameof(User.UserName), user.UserName)
-        };
-
-        await _userManager.AddClaimsAsync(user, claims);
+        await _identityService.RegisterAsync(user, request.Dto.Password);
     }
 }
