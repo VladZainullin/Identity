@@ -4,5 +4,5 @@ namespace Identity.Domain.Entities;
 
 public sealed class User : IdentityUser<Guid>
 {
-    public DateTime DateOfBirth { get; set; }
+    public DateOnly DateOfBirth { get; set; }
 }
