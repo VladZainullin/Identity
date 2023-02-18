@@ -8,13 +8,9 @@ namespace Identity.Infrastructure.Services;
 internal sealed class IdentityService : IIdentityService
 {
     private readonly SignInManager<User> _signInManager;
-    private readonly UserManager<User> _userManager;
 
-    public IdentityService(
-        UserManager<User> userManager,
-        SignInManager<User> signInManager)
+    public IdentityService(SignInManager<User> signInManager)
     {
-        _userManager = userManager;
         _signInManager = signInManager;
     }
 
@@ -22,7 +18,7 @@ internal sealed class IdentityService : IIdentityService
         User user,
         string password)
     {
-        var result = await _userManager.CreateAsync(
+        var result = await _signInManager.UserManager.CreateAsync(
             user,
             password);
 
