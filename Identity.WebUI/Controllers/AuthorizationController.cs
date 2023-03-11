@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Identity.WebUI.Controllers;
 
-[Route("authorization")]
+[Route("api/authorization")]
 public sealed class AuthorizationController : ApiControllerBase
 {
     [HttpPost("register")]
