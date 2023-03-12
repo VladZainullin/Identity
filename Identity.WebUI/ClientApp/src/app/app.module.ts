@@ -20,7 +20,7 @@ import { SignUpComponent } from './sign-up/sign-up.component';
     ReactiveFormsModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent, SignInComponent]
 })
 export class AppModule {
 }

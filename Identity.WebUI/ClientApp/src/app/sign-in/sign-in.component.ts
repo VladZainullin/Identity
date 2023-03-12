@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {CalendarDate} from "calendar-date";
 
 @Component({
   selector: 'app-sign-in',
@@ -7,9 +9,35 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SignInComponent implements OnInit {
 
-  constructor() { }
+  customerForm!: FormGroup;
+
+  constructor(private formBuilder: FormBuilder) {
+  }
 
   ngOnInit(): void {
+    let configuration = {
+      username: ['', [
+        Validators.required,
+        Validators.min(1),
+        Validators.max(20)]],
+      dateOfBirth: ['',[
+        Validators.required,
+      ]],
+      email: ['', [
+        Validators.required,
+        Validators.email
+      ]],
+      password: ['', [
+        Validators.required,
+        Validators.min(8),
+      ]]
+    }
+
+    this.customerForm = this.formBuilder.group(configuration);
+  }
+
+  save(): void {
+
   }
 
 }
