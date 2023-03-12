@@ -1,26 +1,32 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {CalendarDate} from "calendar-date";
 import {FormControl} from "@angular/forms";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.css']
 })
-export class SignUpComponent implements OnInit {
+export class SignUpComponent implements OnInit, OnDestroy {
   constructor(
     private _httpClient: HttpClient,
     @Inject('BASE_URL') private _baseUrl: string) {
   }
 
   usernameControl: FormControl<string | null>;
+  usernameSubscribe: Subscription;
   username: string;
   dateOfBirthControl: FormControl<CalendarDate | null>;
+  dateOfBirthSubscribe: Subscription;
   dateOfBirth: CalendarDate;
   passwordControl: FormControl<string | null>;
+  passwordSubscribe: Subscription;
   password: string;
   emailControl: FormControl<string | null>;
+
+  emailSubscribe: Subscription;
   email: string;
 
   onClick(): void {
@@ -42,7 +48,7 @@ export class SignUpComponent implements OnInit {
 
   ngOnInit() {
     this.usernameControl = new FormControl<string | null>(null);
-    this.usernameControl.valueChanges
+    this.usernameSubscribe = this.usernameControl.valueChanges
       .subscribe(v => {
         if (v != null) {
           this.username = v
@@ -50,7 +56,7 @@ export class SignUpComponent implements OnInit {
       });
 
     this.dateOfBirthControl = new FormControl<CalendarDate | null>(null);
-    this.dateOfBirthControl.valueChanges
+    this.dateOfBirthSubscribe = this.dateOfBirthControl.valueChanges
       .subscribe(v => {
         if (v != null) {
           this.dateOfBirth = v
@@ -58,7 +64,7 @@ export class SignUpComponent implements OnInit {
       });
 
     this.emailControl = new FormControl<string | null>(null);
-    this.emailControl.valueChanges
+    this.emailSubscribe = this.emailControl.valueChanges
       .subscribe(v => {
         if (v != null) {
           this.email = v
@@ -66,12 +72,19 @@ export class SignUpComponent implements OnInit {
       });
 
     this.passwordControl = new FormControl<string | null>(null);
-    this.passwordControl.valueChanges
+    this.passwordSubscribe = this.passwordControl.valueChanges
       .subscribe(v => {
         if (v != null) {
           this.password = v
         }
       });
+  }
+
+  ngOnDestroy(): void {
+    this.usernameSubscribe.unsubscribe();
+    this.dateOfBirthSubscribe.unsubscribe();
+    this.emailSubscribe.unsubscribe();
+    this.passwordSubscribe.unsubscribe();
   }
 }
 
