@@ -2,29 +2,21 @@
   <form>
     <h1 class="h1">Регистрация</h1>
     <div class="mb-2">
-      <label for="name" class="form-label">Фамилия</label>
-      <input type="text" class="form-control" id="name" aria-describedby="emailHelp">
-    </div>
-    <div class="mb-2">
-      <label for="surname" class="form-label">Имя</label>
-      <input type="text" class="form-control" id="surname" aria-describedby="emailHelp">
-    </div>
-    <div class="mb-2">
-      <label for="patronymic" class="form-label">Отчество</label>
-      <input type="text" class="form-control" id="patronymic" aria-describedby="emailHelp">
-    </div>
-    <div class="mb-2">
       <label for="username" class="form-label">Имя пользователя</label>
-      <input type="text" class="form-control" id="username" aria-describedby="emailHelp">
+      <input [formControl]="usernameControl" type="text" class="form-control" id="username" aria-describedby="emailHelp">
+    </div>
+    <div class="mb-2">
+      <label for="dateOfBirth" class="form-label">Дата рождения</label>
+      <input [formControl]="dateOfBirthControl" type="date" class="form-control" id="dateOfBirth" aria-describedby="emailHelp">
     </div>
     <div class="mb-2">
       <label for="email" class="form-label">Почта</label>
-      <input type="email" class="form-control" id="email" aria-describedby="emailHelp">
+      <input [formControl]="emailControl" type="email" class="form-control" id="email" aria-describedby="emailHelp">
     </div>
     <div class="mb-2">
       <label for="password" class="form-label">Пароль</label>
-      <input type="password" class="form-control" id="password">
+      <input [formControl]="passwordControl" type="password" class="form-control" id="password">
     </div>
-    <a type="submit" class="btn btn-primary w-100x">Зарегистрироваться</a>
+    <a type="submit" class="btn btn-primary w-100x" (click)="onClick()">Зарегистрироваться</a>
   </form>
 </div>
