@@ -24,6 +24,6 @@ internal sealed class RegisterUserHandler : IRequestHandler<RegisterUserCommand>
     {
         var user = _mapper.Map<User>(request.Dto);
 
-        await _identityService.RegisterAsync(user, request.Dto.Password);
+        await _identityService.SignUpAsync(user, request.Dto.Password);
     }
 }
