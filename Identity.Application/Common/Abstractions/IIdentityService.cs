@@ -4,14 +4,14 @@ namespace Identity.Application.Common.Abstractions;
 
 public interface IIdentityService
 {
-    Task RegisterAsync(
+    Task SignUpAsync(
         User user,
         string password);
 
-    Task LoginAsync(
+    Task SignInAsync(
         string username,
         string password,
         bool rememberMe = true);
 
-    Task LogoutAsync();
+    Task SignOutAsync();
 }

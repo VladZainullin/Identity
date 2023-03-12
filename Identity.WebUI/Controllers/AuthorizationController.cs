@@ -8,8 +8,8 @@ namespace Identity.WebUI.Controllers;
 [Route("api/authorization")]
 public sealed class AuthorizationController : ApiControllerBase
 {
-    [HttpPost("register")]
-    public async Task<IActionResult> RegisterUserAsync(
+    [HttpPost("sign-up")]
+    public async Task<IActionResult> SignUpAsync(
         [FromBody] RegisterUserDto dto,
         CancellationToken cancellationToken)
     {
@@ -21,7 +21,7 @@ public sealed class AuthorizationController : ApiControllerBase
     }
 
     [HttpPost("sign-in")]
-    public async Task<IActionResult> SignInUserAsync(
+    public async Task<IActionResult> SignInAsync(
         [FromBody] SignInUserDto dto,
         CancellationToken cancellationToken)
     {
@@ -33,7 +33,7 @@ public sealed class AuthorizationController : ApiControllerBase
     }
     
     [HttpPost("sign-out")]
-    public async Task<IActionResult> SignOutUserAsync(CancellationToken cancellationToken)
+    public async Task<IActionResult> SignOutAsync(CancellationToken cancellationToken)
     {
         await Mediator.Send(
             new SignOutUserCommand(),

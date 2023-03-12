@@ -14,7 +14,7 @@ internal sealed class IdentityService : IIdentityService
         _signInManager = signInManager;
     }
 
-    public async Task RegisterAsync(
+    public async Task SignUpAsync(
         User user,
         string password)
     {
@@ -29,7 +29,7 @@ internal sealed class IdentityService : IIdentityService
         }
     }
 
-    public async Task LoginAsync(
+    public async Task SignInAsync(
         string username,
         string password,
         bool rememberMe = true)
@@ -43,8 +43,8 @@ internal sealed class IdentityService : IIdentityService
         if (!result.Succeeded) throw new IdentityException("Неверное имя пользователя или пароль");
     }
 
-    public async Task LogoutAsync()
+    public Task SignOutAsync()
     {
-        await _signInManager.SignOutAsync();
+        return _signInManager.SignOutAsync();
     }
 }

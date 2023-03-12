@@ -16,6 +16,6 @@ internal sealed class SignOutUserHandler : IRequestHandler<SignOutUserCommand>
         SignOutUserCommand request,
         CancellationToken cancellationToken)
     {
-        await _identityService.LogoutAsync();
+        await _identityService.SignOutAsync();
     }
 }

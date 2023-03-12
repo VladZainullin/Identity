@@ -16,7 +16,7 @@ internal sealed class SignInUserHandler : IRequestHandler<SignInUserCommand>
         SignInUserCommand request,
         CancellationToken cancellationToken)
     {
-        await _identityService.LoginAsync(
+        await _identityService.SignInAsync(
             request.Dto.Username,
             request.Dto.Password,
             request.Dto.RememberMe);
