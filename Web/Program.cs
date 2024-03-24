@@ -22,7 +22,7 @@ builder.Services
     .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(IdentityConstants.ApplicationScheme, options =>
     {
-        options.SlidingExpiration = true;
+        options.ExpireTimeSpan = TimeSpan.FromDays(7);
     });
 
 builder.Services.AddControllers();
