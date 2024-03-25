@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -5,32 +6,26 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContextPool<IdentityDbContext<IdentityUser<Guid>, IdentityRole<Guid>, Guid>>(options =>
+builder.Services
+    .AddAuthentication()
+    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme);
+
+builder.Services.AddAuthorizationBuilder();
+
+builder.Services.AddDbContextPool<IdentityDbContext<IdentityUser>>(x =>
 {
-    options.UseInMemoryDatabase("Database");
+    x.UseInMemoryDatabase("data");
 });
 
 builder.Services
-    .AddIdentityCore<IdentityUser<Guid>>(options =>
-    {
-        options.User.RequireUniqueEmail = true;
-    })
-    .AddEntityFrameworkStores<IdentityDbContext<IdentityUser<Guid>, IdentityRole<Guid>, Guid>>()
-    .AddSignInManager<SignInManager<IdentityUser<Guid>>>();
-
-builder.Services
-    .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(IdentityConstants.ApplicationScheme, options =>
-    {
-        options.ExpireTimeSpan = TimeSpan.FromDays(7);
-    });
-
-builder.Services.AddControllers();
+    .AddIdentityCore<IdentityUser>()
+    .AddEntityFrameworkStores<IdentityDbContext<IdentityUser>>()
+    .AddApiEndpoints();
 
 var app = builder.Build();
 
-app.UseAuthentication();
+app.MapIdentityApi<IdentityUser>();
 
-app.MapControllers();
+app.MapGet("/", (ClaimsPrincipal user) => user.Identity?.Name).RequireAuthorization();
 
-await app.RunAsync();
+app.Run();
